@@ -16,6 +16,18 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "unreal_class_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "unreal_struct_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "unreal_enum_declaration"
+        },
+        {
+          "type": "SYMBOL",
           "name": "function_definition"
         },
         {
@@ -5584,6 +5596,10 @@
       "type": "CHOICE",
       "members": [
         {
+          "type": "SYMBOL",
+          "name": "unreal_body_macro"
+        },
+        {
           "type": "CHOICE",
           "members": [
             {
@@ -5713,6 +5729,27 @@
     "field_declaration": {
       "type": "SEQ",
       "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "uproperty_macro"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "ufunction_macro"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
         {
           "type": "SYMBOL",
           "name": "_declaration_specifiers"
@@ -12595,6 +12632,18 @@
       "type": "SEQ",
       "members": [
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "ufunction_macro"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "SYMBOL",
           "name": "_declaration_specifiers"
         },
@@ -17471,6 +17520,622 @@
       },
       "named": true,
       "value": "namespace_identifier"
+    },
+    "unreal_specifier_keyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "Blueprintable"
+        },
+        {
+          "type": "STRING",
+          "value": "BlueprintType"
+        },
+        {
+          "type": "STRING",
+          "value": "Abstract"
+        },
+        {
+          "type": "STRING",
+          "value": "MinimalAPI"
+        },
+        {
+          "type": "STRING",
+          "value": "Deprecated"
+        },
+        {
+          "type": "STRING",
+          "value": "EditAnywhere"
+        },
+        {
+          "type": "STRING",
+          "value": "EditDefaultsOnly"
+        },
+        {
+          "type": "STRING",
+          "value": "EditInstanceOnly"
+        },
+        {
+          "type": "STRING",
+          "value": "VisibleAnywhere"
+        },
+        {
+          "type": "STRING",
+          "value": "VisibleDefaultsOnly"
+        },
+        {
+          "type": "STRING",
+          "value": "VisibleInstanceOnly"
+        },
+        {
+          "type": "STRING",
+          "value": "BlueprintReadOnly"
+        },
+        {
+          "type": "STRING",
+          "value": "BlueprintReadWrite"
+        },
+        {
+          "type": "STRING",
+          "value": "Config"
+        },
+        {
+          "type": "STRING",
+          "value": "GlobalConfig"
+        },
+        {
+          "type": "STRING",
+          "value": "Transient"
+        },
+        {
+          "type": "STRING",
+          "value": "Replicated"
+        },
+        {
+          "type": "STRING",
+          "value": "ReplicatedUsing"
+        },
+        {
+          "type": "STRING",
+          "value": "SaveGame"
+        },
+        {
+          "type": "STRING",
+          "value": "BlueprintCallable"
+        },
+        {
+          "type": "STRING",
+          "value": "BlueprintPure"
+        },
+        {
+          "type": "STRING",
+          "value": "BlueprintImplementableEvent"
+        },
+        {
+          "type": "STRING",
+          "value": "BlueprintNativeEvent"
+        },
+        {
+          "type": "STRING",
+          "value": "Exec"
+        },
+        {
+          "type": "STRING",
+          "value": "Server"
+        },
+        {
+          "type": "STRING",
+          "value": "Client"
+        },
+        {
+          "type": "STRING",
+          "value": "NetMulticast"
+        },
+        {
+          "type": "STRING",
+          "value": "Reliable"
+        },
+        {
+          "type": "STRING",
+          "value": "Unreliable"
+        },
+        {
+          "type": "STRING",
+          "value": "WithValidation"
+        },
+        {
+          "type": "STRING",
+          "value": "Category"
+        },
+        {
+          "type": "STRING",
+          "value": "meta"
+        },
+        {
+          "type": "STRING",
+          "value": "DisplayName"
+        },
+        {
+          "type": "STRING",
+          "value": "ToolTip"
+        }
+      ]
+    },
+    "unreal_specifier": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "unreal_specifier_keyword"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "key",
+              "content": {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "unreal_specifier_keyword"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "identifier"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "STRING",
+              "value": "="
+            },
+            {
+              "type": "FIELD",
+              "name": "value",
+              "content": {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "string_literal"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "parenthesized_expression"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "identifier"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "number_literal"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "true"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "false"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "unreal_specifier_list": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "unreal_specifier"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ","
+              },
+              {
+                "type": "SYMBOL",
+                "name": "unreal_specifier"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "unreal_api_specifier": {
+      "type": "SYMBOL",
+      "name": "identifier"
+    },
+    "uclass_macro": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "UCLASS"
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "specifiers",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "unreal_specifier_list"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "ustruct_macro": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "USTRUCT"
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "specifiers",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "unreal_specifier_list"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "uenum_macro": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "UENUM"
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "specifiers",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "unreal_specifier_list"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "unreal_body_macro": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "GENERATED_BODY"
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "uproperty_macro": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "UPROPERTY"
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "specifiers",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "unreal_specifier_list"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "ufunction_macro": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "UFUNCTION"
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "specifiers",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "unreal_specifier_list"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "unreal_class_declaration": {
+      "type": "PREC",
+      "value": 2,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "uclass_macro"
+          },
+          {
+            "type": "STRING",
+            "value": "class"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "unreal_api_specifier"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "FIELD",
+            "name": "name",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_class_name"
+            }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "base_class_clause"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "FIELD",
+            "name": "body",
+            "content": {
+              "type": "SYMBOL",
+              "name": "field_declaration_list"
+            }
+          },
+          {
+            "type": "STRING",
+            "value": ";"
+          }
+        ]
+      }
+    },
+    "unreal_struct_declaration": {
+      "type": "PREC",
+      "value": 2,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "ustruct_macro"
+          },
+          {
+            "type": "STRING",
+            "value": "struct"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "unreal_api_specifier"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "FIELD",
+            "name": "name",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_class_name"
+            }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "base_class_clause"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "FIELD",
+            "name": "body",
+            "content": {
+              "type": "SYMBOL",
+              "name": "field_declaration_list"
+            }
+          },
+          {
+            "type": "STRING",
+            "value": ";"
+          }
+        ]
+      }
+    },
+    "unreal_enum_declaration": {
+      "type": "PREC",
+      "value": 2,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "uenum_macro"
+          },
+          {
+            "type": "STRING",
+            "value": "enum"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "class"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "struct"
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "FIELD",
+            "name": "name",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_class_name"
+            }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_enum_base_clause"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "FIELD",
+            "name": "body",
+            "content": {
+              "type": "SYMBOL",
+              "name": "enumerator_list"
+            }
+          },
+          {
+            "type": "STRING",
+            "value": ";"
+          }
+        ]
+      }
     }
   },
   "extras": [

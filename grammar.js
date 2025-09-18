@@ -111,6 +111,11 @@ module.exports = grammar(C, {
 
   rules: {
     _top_level_item: ($, original) => choice(
+      //start unreal engien
+      $.unreal_class_declaration,
+      $.unreal_struct_declaration,
+      $.unreal_enum_declaration, 
+      //end unreal engine
       ...original.members.filter((member) => member.content?.name != '_old_style_function_definition'),
       $.namespace_definition,
       $.concept_definition,
@@ -528,6 +533,7 @@ module.exports = grammar(C, {
     )),
 
     _field_declaration_list_item: ($, original) => choice(
+      $.unreal_body_macro, // <<< 追加
       original,
       $.template_declaration,
       alias($.inline_method_definition, $.function_definition),
@@ -545,6 +551,7 @@ module.exports = grammar(C, {
     ),
 
     field_declaration: $ => seq(
+      optional(choice($.uproperty_macro, $.ufunction_macro)), // <<< 追加
       $._declaration_specifiers,
       commaSep(seq(
         field('declarator', $._field_declarator),
@@ -559,6 +566,7 @@ module.exports = grammar(C, {
     ),
 
     inline_method_definition: $ => seq(
+      optional($.ufunction_macro), // <<< 追加
       $._declaration_specifiers,
       field('declarator', $._field_declarator),
       choice(
@@ -1520,6 +1528,124 @@ module.exports = grammar(C, {
     ),
 
     _namespace_identifier: $ => alias($.identifier, $.namespace_identifier),
+
+
+    // --- START: UNREAL ENGINE RULES ---
+    unreal_specifier_keyword: $ => choice(
+     // UCLASS / USTRUCT / UENUM でよく使われるキーワード
+      'Blueprintable',
+      'BlueprintType',
+      'Abstract',
+      'MinimalAPI',
+      'Deprecated',
+
+      // UPROPERTY
+      'EditAnywhere',
+      'EditDefaultsOnly',
+      'EditInstanceOnly',
+      'VisibleAnywhere',
+      'VisibleDefaultsOnly',
+      'VisibleInstanceOnly',
+      'BlueprintReadOnly',
+      'BlueprintReadWrite',
+      'Config',
+      'GlobalConfig',
+      'Transient',
+      'Replicated',
+      'ReplicatedUsing',
+      'SaveGame',
+
+      // UFUNCTION 
+      'BlueprintCallable',
+      'BlueprintPure',
+      'BlueprintImplementableEvent',
+      'BlueprintNativeEvent',
+      'Exec',
+      'Server',
+      'Client',
+      'NetMulticast',
+      'Reliable',
+      'Unreliable',
+      'WithValidation',
+
+      //
+      'Category',
+      'meta',
+      'DisplayName',
+      'ToolTip'
+    ),
+    unreal_specifier: $ => choice(
+      $.unreal_specifier_keyword,
+      $.identifier,
+      seq(
+        field('key', choice($.unreal_specifier_keyword, $.identifier)),
+        '=',
+        field('value', choice(
+          $.string_literal,
+          $.parenthesized_expression,
+          $.identifier,
+          $.number_literal,
+          $.true,
+          $.false,
+        )),
+      ),
+    ),
+
+    unreal_specifier_list: $ => commaSep1($.unreal_specifier),
+
+    unreal_api_specifier: $ => $.identifier,
+
+    uclass_macro: $ => seq('UCLASS', '(', field('specifiers', optional($.unreal_specifier_list)), ')'),
+    ustruct_macro: $ => seq('USTRUCT', '(', field('specifiers', optional($.unreal_specifier_list)), ')'),
+    uenum_macro: $ => seq('UENUM', '(', field('specifiers', optional($.unreal_specifier_list)), ')'),
+    
+    // ↓↓↓ ここからが今回の修正箇所です ↓↓↓
+
+    // 1. セミコロンを含まない基本ルールを定義（名前の先頭に_を追加）
+    // _unreal_body_macro: $ => seq('GENERATED_BODY', '(', ')'),
+    //
+    // // 2. 公開ルールとして、「セミコロンあり」と「セミコロンなし」の両方を選択できるようにする
+    // unreal_body_macro: $ => choice(
+    //     $._unreal_body_macro,               // GENERATED_BODY()
+    //     seq($._unreal_body_macro, ';')      // GENERATED_BODY();
+    // ),
+   unreal_body_macro: $ => seq('GENERATED_BODY', '(', ')'),
+    // ↑↑↑ ここまでが今回の修正箇所です ↑↑↑
+
+    uproperty_macro: $ => seq('UPROPERTY', '(', field('specifiers', optional($.unreal_specifier_list)), ')'),
+    ufunction_macro: $ => seq('UFUNCTION', '(', field('specifiers', optional($.unreal_specifier_list)), ')'),
+
+    // Standalone rules for Unreal class/struct definitions with high precedence
+    unreal_class_declaration: $ => prec(2, seq(
+      $.uclass_macro,
+      'class',
+      optional($.unreal_api_specifier),
+      field('name', $._class_name),
+      optional($.base_class_clause),
+      field('body', $.field_declaration_list),
+      ';',
+    )),
+
+    unreal_struct_declaration: $ => prec(2, seq(
+      $.ustruct_macro,
+      'struct',
+      optional($.unreal_api_specifier),
+      field('name', $._class_name),
+      optional($.base_class_clause),
+      field('body', $.field_declaration_list),
+      ';',
+    )),
+
+    unreal_enum_declaration: $ => prec(2, seq(
+      $.uenum_macro,
+      'enum',
+      optional(choice('class', 'struct')),
+      field('name', $._class_name),
+      optional($._enum_base_clause),
+      field('body', $.enumerator_list),
+      ';'
+    )),
+    // --- END: UNREAL ENGINE RULES ---
   },
 });
 

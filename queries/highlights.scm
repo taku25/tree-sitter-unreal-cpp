@@ -75,3 +75,35 @@
 ; Strings
 
 (raw_string_literal) @string
+
+
+; START UNREAL ENGINE 
+
+; UPROPERTY, UFUNCTION などのマクロ自体を紫色 (keyword) にする
+(uproperty_macro) @keyword
+(ufunction_macro) @keyword
+(uclass_macro) @keyword
+(ustruct_macro) @keyword
+(uenum_macro) @keyword
+(unreal_body_macro) @keyword
+
+; UCLASS() class MyActor の MyActor の部分を型名 (type) の色にする
+(unreal_class_declaration
+  name: (type_identifier) @type.definition)
+
+; UPROPERTY(...) int32 Health の Health の部分をプロパティの色にする
+(field_declaration
+  (uproperty_macro)
+  declarator: (field_identifier) @property)
+
+
+
+; 新しく定義したノードに、特別なハイライトグループを割り当てる
+(unreal_specifier_keyword) @keyword.unreal.specifier
+
+; Category="Value" のValueの部分は通常の文字列の色にする
+(unreal_specifier
+  key: (_)
+  value: (string_literal) @string)
+
+; END UNREAL ENGINE

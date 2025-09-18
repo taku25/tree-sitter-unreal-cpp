@@ -1,0 +1,141 @@
+===
+UCLASS Test
+===
+
+UCLASS(MinimalAPI, Blueprintable)
+class AMyActor : public AActor
+{
+	GENERATED_BODY()
+};
+
+---
+(translation_unit
+  (unreal_class_declaration
+    (uclass_macro
+      specifiers: (unreal_specifier_list
+        (unreal_specifier (identifier))
+        (unreal_specifier (unreal_specifier_keyword))))
+    name: (type_identifier)
+    (base_class_clause
+      (access_specifier)
+      (type_identifier))
+    body: (field_declaration_list
+      (unreal_body_macro))))
+
+===
+UCLASS with API Specifier Test
+===
+
+UCLASS()
+class MYPROJECT_API AMyActor : public AActor
+{
+	GENERATED_BODY()
+};
+
+---
+(translation_unit
+  (unreal_class_declaration
+    (uclass_macro)
+    (unreal_api_specifier (identifier))
+    name: (type_identifier)
+    (base_class_clause
+      (access_specifier)
+      (type_identifier))
+    body: (field_declaration_list
+      (unreal_body_macro))))
+
+===
+UENUM Test
+===
+
+UENUM(BlueprintType)
+enum class EMyEnum : uint8_t
+{
+	EME_Val1,
+	EME_Val2
+};
+
+---
+(translation_unit
+  (unreal_enum_declaration
+    (uenum_macro
+      specifiers: (unreal_specifier_list
+        (unreal_specifier (identifier))))
+    name: (type_identifier)
+    base: (primitive_type)
+    body: (enumerator_list
+      (enumerator
+        name: (identifier))
+      (enumerator
+        name: (identifier)))))
+
+===
+UPROPERTY and UFUNCTION Test
+===
+
+UCLASS()
+class AMyNewActor : public AActor
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+	int32 Health;
+
+	UFUNCTION(BlueprintCallable, Category = "MyCategory")
+	void MyFunction();
+
+protected:
+    UFUNCTION(Server, Reliable)
+    void Server_Execute()
+    {
+        // Do something
+    }
+};
+
+---
+(translation_unit
+  (unreal_class_declaration
+    (uclass_macro)
+    name: (type_identifier)
+    (base_class_clause
+      (access_specifier)
+      (type_identifier))
+    body: (field_declaration_list
+      (unreal_body_macro)
+      (access_specifier)
+      (field_declaration
+        (uproperty_macro
+          specifiers: (unreal_specifier_list
+            (unreal_specifier (unreal_specifier_keyword))
+            (unreal_specifier (unreal_specifier_keyword))
+            (unreal_specifier
+              key: (unreal_specifier_keyword)
+                  value: (string_literal
+                    (string_content)))))
+            type: (type_identifier)
+        declarator: (field_identifier))
+      (field_declaration
+        (ufunction_macro
+          specifiers: (unreal_specifier_list
+            (unreal_specifier (identifier))
+            (unreal_specifier
+              key: (unreal_specifier_keyword)
+              value: (string_literal
+                  (string_content)))))
+            type: (primitive_type)
+            declarator: (function_declarator
+          declarator: (field_identifier)
+          parameters: (parameter_list)))
+      (access_specifier)
+      (function_definition
+        (ufunction_macro
+          specifiers: (unreal_specifier_list
+            (unreal_specifier (unreal_specifier_keyword))
+            (unreal_specifier (unreal_specifier_keyword))))
+        type: (primitive_type)
+        declarator: (function_declarator
+          declarator: (field_identifier)
+          parameters: (parameter_list))
+        body: (compound_statement
+          (comment))))))
