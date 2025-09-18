@@ -1,22 +1,105 @@
-# tree-sitter-cpp
+# tree-sitter-unreal-cpp
 
-[![CI][ci]](https://github.com/tree-sitter/tree-sitter-cpp/actions/workflows/ci.yml)
-[![discord][discord]](https://discord.gg/w7nTvsVJhm)
-[![matrix][matrix]](https://matrix.to/#/#tree-sitter-chat:matrix.org)
-[![crates][crates]](https://crates.io/crates/tree-sitter-cpp)
-[![npm][npm]](https://www.npmjs.com/package/tree-sitter-cpp)
-[![pypi][pypi]](https://pypi.org/project/tree-sitter-cpp)
+[](https://opensource.org/licenses/MIT)
 
-C++ grammar for [tree-sitter](https://github.com/tree-sitter/tree-sitter).
+A [Tree-sitter](https://tree-sitter.github.io/tree-sitter/) parser for Unreal Engine C++.
 
-## References
+This parser is a fork of [tree-sitter-cpp](https://github.com/tree-sitter/tree-sitter-cpp) extended to accurately parse the major reflection macros used by the Unreal Header Tool (UHT), such as `UCLASS`, `UPROPERTY`, `UFUNCTION`, and more.
 
-- [Hyperlinked C++ BNF Grammar](http://www.nongnu.org/hcb/)
-- [EBNF Syntax: C++](http://www.externsoft.ch/download/cpp-iso.html)
+[English](./README.md) [日本語](./README_ja.md)  
+[Original](./README.orig.md)
 
-[ci]: https://img.shields.io/github/actions/workflow/status/tree-sitter/tree-sitter-cpp/ci.yml?logo=github&label=CI
-[discord]: https://img.shields.io/discord/1063097320771698699?logo=discord&label=discord
-[matrix]: https://img.shields.io/matrix/tree-sitter-chat%3Amatrix.org?logo=matrix&label=matrix
-[npm]: https://img.shields.io/npm/v/tree-sitter-cpp?logo=npm
-[crates]: https://img.shields.io/crates/v/tree-sitter-cpp?logo=rust
-[pypi]: https://img.shields.io/pypi/v/tree-sitter-cpp?logo=pypi&logoColor=ffd242
+## ✨ Features
+
+  * **Accurate Parsing of Unreal Engine Macros**: Recognizes `UCLASS`, `USTRUCT`, `UENUM`, `UPROPERTY`, `UFUNCTION`, `GENERATED_BODY`, and more as unique nodes.
+  * **Highlighting for Special Keywords**: Identifies special keywords within macros like `Blueprintable`, `EditAnywhere`, and `Category`, allowing for distinct highlighting.
+  * **API Macro Support**: Supports DLL export macros like `MYPROJECT_API`.
+  * **Foundation for Advanced Tooling**: Generates an accurate syntax tree, enabling the development of future tools for completion, code navigation, and refactoring.
+
+-----
+
+## 🚀 Installation (Neovim & nvim-treesitter)
+
+Use `nvim-treesitter` to install this custom parser as your `cpp` parser in Neovim.
+
+### 1\. `lazy.nvim` Configuration
+
+If you use `lazy.nvim`, add the following configuration.
+
+```lua
+-- e.g., in plugins/treesitter.lua
+
+return {
+  "nvim-treesitter/nvim-treesitter",
+  build = ":TSUpdate",
+  opts = {
+    -- Remove or ensure "cpp" is not in your ensure_installed list
+    ensure_installed = { "c", "lua", "vim" },
+
+    -- ... other settings ...
+
+    parsers = {
+      cpp = {
+        install_info = {
+          -- IMPORTANT: Replace with the URL of your repository
+          url = "https://github.com/taku25/tree-sitter-unreal-cpp", 
+          files = {"src/parser.c", "src/scanner.cc"},
+          branch = "main", -- or master
+        },
+        filetype = "cpp",
+      },
+    },
+  },
+}
+```
+
+### 2\. Install the Parser
+
+Restart Neovim and run the following command:
+
+```vim
+:TSInstall cpp
+```
+
+### 3\. Verify the Installation
+
+Open an Unreal Engine header file and run the `:InspectTree` command. If you see nodes like `unreal_class_declaration`, you're all set\!
+
+-----
+
+## 🎨 Highlighting
+
+This parser only analyzes the syntax. To apply colors, you need to define highlights in a `queries/highlights.scm` file. Basic highlights are included in this repository, but you can customize them to match your color scheme.
+
+**Example (`queries/highlights.scm`):**
+
+```scheme
+; Highlight macros like UPROPERTY, UFUNCTION as keywords
+(uproperty_macro) @keyword
+(ufunction_macro) @keyword
+
+; Highlight special keywords like Blueprintable as built-in constants
+(unreal_specifier_keyword) @constant.builtin
+```
+
+-----
+
+## 🛠️ Ecosystem Integration
+
+This parser is the core of the following suite of Neovim plugins for Unreal Engine development:
+
+  * [`UBT.nvim`](https://www.google.com/search?q=%5Bhttps://github.com/taku25/UBT.nvim%5D\(https://github.com/taku25/UBT.nvim\)): A plugin to run the Unreal Build Tool asynchronously.
+  * [`UEP.nvim`](https://www.google.com/search?q=%5Bhttps://github.com/taku25/UEP.nvim%5D\(https://github.com/taku25/UEP.nvim\)): A file management plugin for Unreal Engine projects.
+  * [`UCM.nvim`](https://www.google.com/search?q=%5Bhttps://github.com/taku25/UCM.nvim%5D\(https://github.com/taku25/UCM.nvim\)): A module management tool for Unreal Engine.
+  * [`ULG.nvim`](https://www.google.com/search?q=%5Bhttps://github.com/taku25/ULG.nvim%5D\(https://github.com/taku25/ULG.nvim\)): A log viewer plugin for Unreal Engine.
+  * [`neo-tree-unl.nvim`](https://www.google.com/search?q=%5Bhttps://github.com/taku25/neo-tree-unl.nvim%5D\(https://github.com/taku25/neo-tree-unl.nvim\)): A specialized `neo-tree` source for Unreal Engine projects.
+
+-----
+
+## 🙏 Acknowledgements
+
+This parser is based on the fantastic work of the [tree-sitter/tree-sitter-cpp](https://github.com/tree-sitter/tree-sitter-cpp) project. The original documentation can be found in [`README.orig.md`](https://www.google.com/search?q=./README.orig.md).
+
+## 📄 License
+
+[MIT](./LICENSE)
