@@ -13,7 +13,7 @@ class AMyActor : public AActor
   (unreal_class_declaration
     (uclass_macro
       specifiers: (unreal_specifier_list
-        (unreal_specifier (identifier))
+        (unreal_specifier (unreal_specifier_keyword))
         (unreal_specifier (unreal_specifier_keyword))))
     name: (type_identifier)
     (base_class_clause
@@ -60,7 +60,7 @@ enum class EMyEnum : uint8_t
   (unreal_enum_declaration
     (uenum_macro
       specifiers: (unreal_specifier_list
-        (unreal_specifier (identifier))))
+        (unreal_specifier (unreal_specifier_keyword))))
     name: (type_identifier)
     base: (primitive_type)
     body: (enumerator_list
@@ -118,7 +118,7 @@ protected:
       (field_declaration
         (ufunction_macro
           specifiers: (unreal_specifier_list
-            (unreal_specifier (identifier))
+            (unreal_specifier (unreal_specifier_keyword))
             (unreal_specifier
               key: (unreal_specifier_keyword)
               value: (string_literal
@@ -139,3 +139,48 @@ protected:
           parameters: (parameter_list))
         body: (compound_statement
           (comment))))))
+
+=====
+USTRUCT Test
+===
+
+USTRUCT(Blueprintable)
+struct FSplineNodeData
+{
+    GENERATED_BODY()
+public:
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FTransform Transform = FTransform::Identity;
+    
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    float test = 0.0f;
+};
+
+---
+(translation_unit
+  (unreal_struct_declaration
+    (ustruct_macro
+      specifiers: (unreal_specifier_list
+        (unreal_specifier (unreal_specifier_keyword))))
+    name: (type_identifier)
+    body: (field_declaration_list
+      (unreal_body_macro)
+      (access_specifier)
+      (field_declaration
+        (uproperty_macro
+          specifiers: (unreal_specifier_list
+            (unreal_specifier (unreal_specifier_keyword))
+            (unreal_specifier (unreal_specifier_keyword))))
+        type: (type_identifier)
+        declarator: (field_identifier)
+        default_value: (qualified_identifier
+          scope: (namespace_identifier)
+          name: (identifier)))
+      (field_declaration
+        (uproperty_macro
+          specifiers: (unreal_specifier_list
+            (unreal_specifier (unreal_specifier_keyword))
+            (unreal_specifier (unreal_specifier_keyword))))
+        type: (primitive_type)
+        declarator: (field_identifier)
+        default_value: (number_literal)))))

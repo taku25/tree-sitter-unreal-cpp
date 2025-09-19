@@ -99,7 +99,8 @@
 
 
 ; 新しく定義したノードに、特別なハイライトグループを割り当てる
-(unreal_specifier_keyword) @keyword.unreal.specifier
+(unreal_class_declaration body: (field_declaration_list (access_specifier) @constant.builtin))
+(unreal_struct_declaration body: (field_declaration_list (access_specifier) @constant.builtin))
 
 ; Category="Value" のValueの部分は通常の文字列の色にする
 (unreal_specifier
