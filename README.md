@@ -35,21 +35,20 @@ return {
   opts = {
     -- Remove or ensure "cpp" is not in your ensure_installed list
     ensure_installed = { "c", "lua", "vim" },
-
     -- ... other settings ...
-
-    parsers = {
-      cpp = {
-        install_info = {
-          -- IMPORTANT: Replace with the URL of your repository
-          url = "https://github.com/taku25/tree-sitter-unreal-cpp", 
-          files = {"src/parser.c", "src/scanner.cc"},
-          branch = "main", -- or master
-        },
-        filetype = "cpp",
-      },
-    },
   },
+  config = function(_,opts)
+    local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+    parser_config.cpp = {
+      install_info = {
+        url = "https://github/taku25/tree-sitter-unreal-cpp",
+        files = { "src/parser.c", "src/scanner.c" },
+        branch = "master",
+      },
+      filetype = "cpp",
+    }
+    require("nvim-treesitter.configs").setup(opts)
+  end,
 }
 ```
 

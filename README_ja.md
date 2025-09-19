@@ -33,23 +33,22 @@ return {
   "nvim-treesitter/nvim-treesitter",
   build = ":TSUpdate",
   opts = {
-    -- ensure_installed から "cpp" を削除、または含めないようにする
+    -- Remove or ensure "cpp" is not in your ensure_installed list
     ensure_installed = { "c", "lua", "vim" },
-
-    -- ... 他の設定 ...
-
-    parsers = {
-      cpp = {
-        install_info = {
-          -- 【重要】あなたのリポジトリのURLに書き換えてください
-          url = "[https://github.com/taku25/tree-sitter-unreal-cpp](https://github.com/taku25/tree-sitter-unreal-cpp)", 
-          files = {"src/parser.c", "src/scanner.cc"},
-          branch = "main", -- または master
-        },
-        filetype = "cpp",
-      },
-    },
+    -- ... other settings ...
   },
+  config = function(_,opts)
+    local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+    parser_config.cpp = {
+      install_info = {
+        url = "https://github/taku25/tree-sitter-unreal-cpp",
+        files = { "src/parser.c", "src/scanner.c" },
+        branch = "master",
+      },
+      filetype = "cpp",
+    }
+    require("nvim-treesitter.configs").setup(opts)
+  end,
 }
 ```
 
