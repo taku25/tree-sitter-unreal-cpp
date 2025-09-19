@@ -41,7 +41,7 @@
       }
     ],
     "links": {
-      "repository": "https://github.com/tree-sitter/tree-sitter-cpp"
+      "repository": "https://github.com/tree-sitter/tree-sitter-unreal-cpp"
     }
   },
   "bindings": {

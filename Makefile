@@ -2,8 +2,8 @@ ifeq ($(OS),Windows_NT)
 $(error Windows is not supported)
 endif
 
-LANGUAGE_NAME := tree-sitter-cpp
-HOMEPAGE_URL := https://github.com/tree-sitter/tree-sitter-cpp
+LANGUAGE_NAME := tree-sitter-unreal-cpp
+HOMEPAGE_URL := https://github.com/taku25/tree-sitter-unreal-cpp
 VERSION := 0.23.4
 
 # repository

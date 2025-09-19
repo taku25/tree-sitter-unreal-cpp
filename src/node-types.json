@@ -8438,6 +8438,10 @@
     "named": false
   },
   {
+    "type": "abstract",
+    "named": false
+  },
+  {
     "type": "alignas",
     "named": false
   },

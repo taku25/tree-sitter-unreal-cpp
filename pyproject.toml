@@ -3,7 +3,7 @@ requires = ["setuptools>=42", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "tree-sitter-cpp"
+name = "tree-sitter-unreal-cpp"
 description = "C++ grammar for tree-sitter"
 version = "0.23.4"
 keywords = ["incremental", "parsing", "tree-sitter", "cpp"]
@@ -23,7 +23,7 @@ license.text = "MIT"
 readme = "README.md"
 
 [project.urls]
-Homepage = "https://github.com/tree-sitter/tree-sitter-cpp"
+Homepage = "https://github.com/tree-sitter/tree-sitter-unreal-cpp"
 
 [project.optional-dependencies]
 core = ["tree-sitter~=0.22"]

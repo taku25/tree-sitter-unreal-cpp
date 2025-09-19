@@ -81,7 +81,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "tree-sitter-cpp"
+name = "tree-sitter-unreal-cpp"
 version = "0.23.4"
 dependencies = [
  "cc",

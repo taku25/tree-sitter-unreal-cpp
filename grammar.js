@@ -1536,6 +1536,7 @@ module.exports = grammar(C, {
       'Blueprintable',
       'BlueprintType',
       'Abstract',
+      'abstract',
       'MinimalAPI',
       'Deprecated',
 
