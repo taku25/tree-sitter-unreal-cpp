@@ -1,9 +1,9 @@
 {
   "grammars": [
     {
-      "name": "cpp",
-      "camelcase": "CPP",
-      "scope": "source.cpp",
+      "name": "unreal_cpp",
+      "camelcase": "UnrealCPP",
+      "scope": "source.unreal_cpp",
       "path": ".",
       "file-types": [
         "cc",
@@ -15,7 +15,8 @@
       ],
       "highlights": [
         "node_modules/tree-sitter-c/queries/highlights.scm",
-        "queries/highlights.scm"
+        "queries/highlights.scm",
+        "queries/highlights_unreal.scm"
       ],
       "injections": "queries/injections.scm",
       "tags": "queries/tags.scm",
@@ -23,21 +24,13 @@
     }
   ],
   "metadata": {
-    "version": "0.23.4",
+    "version": "0.1.0",
     "license": "MIT",
-    "description": "C++ grammar for tree-sitter",
+    "description": "C++ grammar for tree-sitter with Unreal",
     "authors": [
-      {
-        "name": "Max Brunsfeld",
-        "email": "maxbrunsfeld@gmail.com"
-      },
-      {
-        "name": "Amaan Qureshi",
-        "email": "amaanq12@gmail.com"
-      },
-      {
-        "name": "John Drouhard",
-        "email": "john@drouhard.dev"
+     {
+        "name": "taku25",
+        "email": "taku36@gmail.com"
       }
     ],
     "links": {

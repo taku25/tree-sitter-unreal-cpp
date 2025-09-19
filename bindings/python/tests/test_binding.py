@@ -1,11 +1,11 @@
 from unittest import TestCase
 
-import tree_sitter, tree_sitter_cpp
+import tree_sitter, tree_sitter_unreal_cpp
 
 
 class TestLanguage(TestCase):
     def test_can_load_grammar(self):
         try:
-            tree_sitter.Language(tree_sitter_cpp.language())
+            tree_sitter.Language(tree_sitter_unrela_cpp.language())
         except Exception:
             self.fail("Error loading C++ grammar")
