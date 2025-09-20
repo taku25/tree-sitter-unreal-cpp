@@ -24,15 +24,15 @@
 (unreal_api_specifier (identifier) @type.qualifier)
 
 ; Unreal specifiers
-(unreal_specifier (unreal_specifier_keyword) @property)
-(unreal_specifier (identifier) @property) ; allow non-keyword identifiers as specifiers too
+(unreal_specifier (unreal_specifier_keyword) @variable.parameter)
+(unreal_specifier (identifier) @variable.parameter) ; allow non-keyword identifiers as specifiers too
 
 ; key = "value" (direct)
 (unreal_specifier
-  key: (unreal_specifier_keyword) @property
+  key: (unreal_specifier_keyword) @variable.parameter
   value: (string_literal) @string)
 (unreal_specifier
-  key: (identifier) @property
+  key: (identifier) @variable.parameter
   value: (string_literal) @string)
 
 ; key = number / true / false / identifier
