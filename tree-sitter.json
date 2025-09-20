@@ -16,7 +16,7 @@
       "highlights": [
         "node_modules/tree-sitter-c/queries/highlights.scm",
         "queries/highlights.scm",
-        "queries/highlights_unreal.scm"
+        "after/queries/cpp/highlights.scm"
       ],
       "injections": "queries/injections.scm",
       "tags": "queries/tags.scm",
