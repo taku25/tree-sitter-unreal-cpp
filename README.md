@@ -30,36 +30,49 @@ If you use `lazy.nvim`, add the following configuration.
 -- e.g., in plugins/treesitter.lua
 
 return {
-  { 
-    'taku25/tree-sitter-unreal-cpp',
+  {
+    "taku25/tree-sitter-unreal-cpp",
+    opts={},
+    config = function()
+    end
   },
   {
     "nvim-treesitter/nvim-treesitter",
+    branch = "main",
+    lazy = false, 
     build = ":TSUpdate",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter-textobjects",
-    },
-    main = 'nvim-treesitter.configs',
     opts = {
-      -- Remove or ensure "cpp" is not in your ensure_installed list
-      ensure_installed = { "c", "lua", "vim" },
-      -- ... other settings ...
+    --...
     },
-    config = function(_,opts)
-      local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
-      parser_config.cpp = {
-        install_info = {
-          url = "https://github.com/taku25/tree-sitter-unreal-cpp",
-          files = {
-            "src/parser.c",
-            "src/scanner.c",
+    config = function(_, opts)
+      local function load_original_parsers_table()
+        for _, rtp in ipairs(vim.api.nvim_list_runtime_paths()) do
+          local f = rtp .. "/lua/nvim-treesitter/parsers.lua"
+          local stat = vim.uv.fs_stat(f)
+          if stat and stat.type == "file" then
+            local ok, mod = pcall(dofile, f)
+            if ok and type(mod) == "table" and (mod.cpp or mod.c) then
+              return mod
+            end
+          end
+        end
+        error("[unreal-cpp] Could not locate original nvim-treesitter parsers.lua")
+      end
+      package.preload["nvim-treesitter.parsers"] = function()
+        local parsers = load_original_parsers_table()
+        parsers.cpp = vim.tbl_deep_extend("force", parsers.unreal_cpp or {}, {
+          install_info = {
+            url = "https://github.com/taku25/tree-sitter-unreal-cpp",
+            revision = '51a7a50db52ddff305f716816727cbd681691022',
           },
-          branch = "master",
-        },
-        filetype = "cpp",
-      }
-      require("nvim-treesitter.configs").setup(opts)
-    end,
+          requires = { 'c' },
+          tier = 2,
+          maintainers = { '@taku25' },
+        })
+        return parsers
+      end
+      require("nvim-treesitter").setup(opts)
+   end,
   },
 }
 ```
