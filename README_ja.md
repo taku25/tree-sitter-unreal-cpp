@@ -45,34 +45,18 @@ return {
     --...
     },
     config = function(_, opts)
-      local function load_original_parsers_table()
-        for _, rtp in ipairs(vim.api.nvim_list_runtime_paths()) do
-          local f = rtp .. "/lua/nvim-treesitter/parsers.lua"
-          local stat = vim.uv.fs_stat(f)
-          if stat and stat.type == "file" then
-            local ok, mod = pcall(dofile, f)
-            if ok and type(mod) == "table" and (mod.cpp or mod.c) then
-              return mod
-            end
-          end
-        end
-        error("[unreal-cpp] Could not locate original nvim-treesitter parsers.lua")
-      end
-      package.preload["nvim-treesitter.parsers"] = function()
-        local parsers = load_original_parsers_table()
-        parsers.cpp = vim.tbl_deep_extend("force", parsers.unreal_cpp or {}, {
+      vim.api.nvim_create_autocmd('User', { pattern = 'TSUpdate',
+      callback = function()
+        require('nvim-treesitter.parsers').cpp = {
           install_info = {
-            url = "https://github.com/taku25/tree-sitter-unreal-cpp",
-            revision = '51a7a50db52ddff305f716816727cbd681691022',
+            url  = 'https://github.com/taku25/tree-sitter-unreal-cpp',
+            revision  = '04ee0a7bbb303940e89e446e710192651ae14965',
           },
-          requires = { 'c' },
-          tier = 2,
-          maintainers = { '@taku25' },
-        })
-        return parsers
-      end
+        }
+
+      end})
       require("nvim-treesitter").setup(opts)
-   end,
+    end,
   },
 }
 ```
