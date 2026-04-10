@@ -38,3 +38,10 @@ dist/
 *.tar.gz
 *.tgz
 *.zip
+
+# Temporary / backup files
+*.bak
+*.exp
+*.lib
+parse_log.txt
+parse_result.txt

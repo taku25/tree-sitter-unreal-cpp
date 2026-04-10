@@ -50,6 +50,10 @@ const ASSIGNMENT_OPERATORS = [
   'xor_eq',
 ];
 
+const commaSep = C.commaSep;
+const commaSep1 = C.commaSep1;
+const preprocIf = C.preprocIf;
+
 module.exports = grammar(C, {
   name: 'cpp',
 
@@ -182,7 +186,10 @@ module.exports = grammar(C, {
 
 
     _block_item: ($, original) => choice(
-      ...original.members.filter((member) => member.content?.name != '_old_style_function_definition'),
+      ...original.members.filter((member) =>
+        member.content?.name != '_old_style_function_definition' &&
+        !member.name.startsWith('preproc_if'),
+      ),
       $.namespace_definition,
       $.concept_definition,
       $.namespace_alias_definition,
@@ -192,6 +199,10 @@ module.exports = grammar(C, {
       $.consteval_block_declaration,
       $.template_declaration,
       $.template_instantiation,
+      $.export_declaration,
+      $.import_declaration,
+      alias($.preproc_if_in_block, $.preproc_if),
+      alias($.preproc_ifdef_in_block, $.preproc_ifdef),
       alias($.constructor_or_destructor_definition, $.function_definition),
       alias($.operator_cast_definition, $.function_definition),
       alias($.operator_cast_declaration, $.declaration),
@@ -200,6 +211,9 @@ module.exports = grammar(C, {
       $.unreal_pragma_macro,
       // ▲▲▲ 追加完了 ▲▲▲
     ),
+
+    ...preprocIf('', $ => $._top_level_item),
+    ...preprocIf('_in_block', $ => $._block_item),
 
     // Types
 
@@ -439,13 +453,12 @@ module.exports = grammar(C, {
       ';',
     ),
 
-    export_declaration: $ => seq(
+    export_declaration: $ => prec(1, seq(
       'export',
-      choice($._block_item, seq('{', repeat($._block_item), '}')),
-    ),
+      choice($._block_item, $.declaration_list),
+    )),
 
     import_declaration: $ => seq(
-      optional('export'),
       'import',
       choice(
         field('name', $.module_name),
@@ -1923,25 +1936,3 @@ module.exports = grammar(C, {
     _pragma_argument: _ => token.immediate(prec(-1, /.*/)),
   },
 });
-
-/**
- * Creates a rule to optionally match one or more of the rules separated by a comma
- *
- * @param {Rule} rule
- *
- * @returns {ChoiceRule}
- */
-function commaSep(rule) {
-  return optional(commaSep1(rule));
-}
-
-/**
- * Creates a rule to match one or more of the rules separated by a comma
- *
- * @param {Rule} rule
- *
- * @returns {SeqRule}
- */
-function commaSep1(rule) {
-  return seq(rule, repeat(seq(',', rule)));
-}
