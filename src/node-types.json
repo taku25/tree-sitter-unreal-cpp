@@ -2556,6 +2556,10 @@
         {
           "type": "unreal_api_specifier",
           "named": true
+        },
+        {
+          "type": "unreal_deprecated_macro",
+          "named": true
         }
       ]
     }

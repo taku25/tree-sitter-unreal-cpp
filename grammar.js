@@ -393,7 +393,8 @@ module.exports = grammar(C, {
     enum_specifier: $ => prec.right(seq(
       'enum',
       optional(choice('class', 'struct')),
-      optional($.unreal_api_specifier), // ここに追加！
+      optional($.unreal_api_specifier), // ENGINE_API etc.
+      optional($.unreal_deprecated_macro), // UE_DEPRECATED(5.2, "...") を許可
       choice(
         seq(
           field('name', $._class_name),
