@@ -52,6 +52,43 @@ class MYPROJECT_API AMyActor : public AActor
       (unreal_body_macro))))
 
 ===
+UINTERFACE Test
+===
+
+UCLASS()
+class TestClass : public UObject
+{
+    GENERATED_BODY()
+};
+
+UINTERFACE()
+class TestInterface : public UInterface
+{
+    GENERATED_BODY()
+};
+---
+
+(translation_unit
+  (unreal_class_declaration
+    (uclass_macro
+      (unreal_argument_list))
+    name: (type_identifier)
+    (base_class_clause
+      (access_specifier)
+      (type_identifier))
+    body: (field_declaration_list
+      (unreal_body_macro)))
+  (unreal_interface_declaration
+    (uinterface_macro
+      (unreal_argument_list))
+    name: (type_identifier)
+    (base_class_clause
+      (access_specifier)
+      (type_identifier))
+    body: (field_declaration_list
+      (unreal_body_macro))))
+
+===
 UENUM Test
 ===
 
