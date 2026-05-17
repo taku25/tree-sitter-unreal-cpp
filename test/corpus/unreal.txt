@@ -52,6 +52,43 @@ class MYPROJECT_API AMyActor : public AActor
       (unreal_body_macro))))
 
 ===
+UINTERFACE Test
+===
+
+UCLASS()
+class TestClass : public UObject
+{
+    GENERATED_BODY()
+};
+
+UINTERFACE()
+class TestInterface : public UInterface
+{
+    GENERATED_BODY()
+};
+---
+
+(translation_unit
+  (unreal_class_declaration
+    (uclass_macro
+      (unreal_argument_list))
+    name: (type_identifier)
+    (base_class_clause
+      (access_specifier)
+      (type_identifier))
+    body: (field_declaration_list
+      (unreal_body_macro)))
+  (unreal_interface_declaration
+    (uinterface_macro
+      (unreal_argument_list))
+    name: (type_identifier)
+    (base_class_clause
+      (access_specifier)
+      (type_identifier))
+    body: (field_declaration_list
+      (unreal_body_macro))))
+
+===
 UENUM Test
 ===
 
@@ -538,6 +575,120 @@ class AMyActor
         declarator: (function_declarator
           declarator: (field_identifier)
           parameters: (parameter_list))))))
+
+===
+Deprecated Function Definition Test
+===
+
+UE_DEPRECATED(5.0, "Use NewDefinedFunction instead.")
+void OldDefinedFunction()
+{
+}
+
+---
+
+(translation_unit
+  (function_definition
+    (unreal_deprecated_macro
+      (unreal_argument_list
+        (unreal_specifier_list
+          (unreal_specifier
+            (unreal_specifier_content
+              (number_literal)))
+          (unreal_specifier
+            (unreal_specifier_content
+              (string_literal
+                (string_content)))))))
+    type: (primitive_type)
+    declarator: (function_declarator
+      declarator: (identifier)
+      parameters: (parameter_list))
+    body: (compound_statement)))
+
+===
+Deprecated Class With Inheritance Test
+===
+
+UE_DEPRECATED(5.1, "Use UReplacementObject instead.")
+class UOldObject : public UObject
+{
+};
+
+---
+
+(translation_unit
+  (declaration
+    (unreal_deprecated_macro
+      (unreal_argument_list
+        (unreal_specifier_list
+          (unreal_specifier
+            (unreal_specifier_content
+              (number_literal)))
+          (unreal_specifier
+            (unreal_specifier_content
+              (string_literal
+                (string_content)))))))
+    type: (class_specifier
+      name: (type_identifier)
+      (base_class_clause
+        (access_specifier)
+        (type_identifier))
+      body: (field_declaration_list))))
+
+===
+Deprecated Struct Declaration Test
+===
+
+UE_DEPRECATED(5.2, "Use FNewData instead.")
+struct FOldData
+{
+};
+
+---
+
+(translation_unit
+  (declaration
+    (unreal_deprecated_macro
+      (unreal_argument_list
+        (unreal_specifier_list
+          (unreal_specifier
+            (unreal_specifier_content
+              (number_literal)))
+          (unreal_specifier
+            (unreal_specifier_content
+              (string_literal
+                (string_content)))))))
+    type: (struct_specifier
+      name: (type_identifier)
+      body: (field_declaration_list))))
+
+===
+Deprecated Exported Class Test
+===
+
+UE_DEPRECATED(5.0, "Use FNewExportedType instead.")
+class PLUGIN_API FOldExportedType
+{
+};
+
+---
+
+(translation_unit
+  (declaration
+    (unreal_deprecated_macro
+      (unreal_argument_list
+        (unreal_specifier_list
+          (unreal_specifier
+            (unreal_specifier_content
+              (number_literal)))
+          (unreal_specifier
+            (unreal_specifier_content
+              (string_literal
+                (string_content)))))))
+    type: (class_specifier
+      (unreal_api_specifier)
+      name: (type_identifier)
+      body: (field_declaration_list))))
 
 ===
 Enum with UMETA Test
