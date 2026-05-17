@@ -35,6 +35,14 @@
           "value": 100,
           "content": {
             "type": "SYMBOL",
+            "name": "unreal_interface_declaration"
+          }
+        },
+        {
+          "type": "PREC",
+          "value": 100,
+          "content": {
+            "type": "SYMBOL",
             "name": "unreal_struct_declaration"
           }
         },
@@ -5868,6 +5876,10 @@
         {
           "type": "SYMBOL",
           "name": "unreal_class_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "unreal_interface_declaration"
         },
         {
           "type": "SYMBOL",
@@ -19024,6 +19036,19 @@
         }
       ]
     },
+    "uinterface_macro": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "UINTERFACE"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "unreal_argument_list"
+        }
+      ]
+    },
     "ustruct_macro": {
       "type": "SEQ",
       "members": [
@@ -19076,6 +19101,10 @@
             {
               "type": "STRING",
               "value": "GENERATED_UCLASS_BODY"
+            },
+            {
+              "type": "STRING",
+              "value": "GENERATED_UINTERFACE_BODY"
             },
             {
               "type": "STRING",
@@ -19154,6 +19183,82 @@
           {
             "type": "SYMBOL",
             "name": "uclass_macro"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "SYMBOL",
+              "name": "comment"
+            }
+          },
+          {
+            "type": "STRING",
+            "value": "class"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "unreal_api_specifier"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "FIELD",
+            "name": "name",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_class_name"
+            }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "base_class_clause"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "FIELD",
+            "name": "body",
+            "content": {
+              "type": "SYMBOL",
+              "name": "field_declaration_list"
+            }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ";"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "unreal_interface_declaration": {
+      "type": "PREC",
+      "value": 100,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "uinterface_macro"
           },
           {
             "type": "REPEAT",
@@ -19973,6 +20078,9 @@
     ],
     [
       "unreal_class_declaration"
+    ],
+    [
+      "unreal_interface_declaration"
     ],
     [
       "unreal_struct_declaration"

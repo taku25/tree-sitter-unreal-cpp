@@ -3071,6 +3071,10 @@
           "named": true
         },
         {
+          "type": "unreal_interface_declaration",
+          "named": true
+        },
+        {
           "type": "unreal_pragma_macro",
           "named": true
         },
@@ -5624,6 +5628,10 @@
           "named": true
         },
         {
+          "type": "unreal_interface_declaration",
+          "named": true
+        },
+        {
           "type": "unreal_pragma_macro",
           "named": true
         },
@@ -5820,6 +5828,10 @@
           "named": true
         },
         {
+          "type": "unreal_interface_declaration",
+          "named": true
+        },
+        {
           "type": "unreal_pragma_macro",
           "named": true
         },
@@ -5984,6 +5996,10 @@
         },
         {
           "type": "unreal_function_declaration",
+          "named": true
+        },
+        {
+          "type": "unreal_interface_declaration",
           "named": true
         },
         {
@@ -6247,6 +6263,10 @@
           "named": true
         },
         {
+          "type": "unreal_interface_declaration",
+          "named": true
+        },
+        {
           "type": "unreal_pragma_macro",
           "named": true
         },
@@ -6440,6 +6460,10 @@
         },
         {
           "type": "unreal_function_declaration",
+          "named": true
+        },
+        {
+          "type": "unreal_interface_declaration",
           "named": true
         },
         {
@@ -7805,6 +7829,10 @@
           "named": true
         },
         {
+          "type": "unreal_interface_declaration",
+          "named": true
+        },
+        {
           "type": "unreal_pragma_macro",
           "named": true
         },
@@ -8018,6 +8046,21 @@
   },
   {
     "type": "ufunction_macro",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "unreal_argument_list",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "uinterface_macro",
     "named": true,
     "fields": {},
     "children": {
@@ -8470,6 +8513,66 @@
         },
         {
           "type": "unreal_deprecated_macro",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "unreal_interface_declaration",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "field_declaration_list",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "qualified_identifier",
+            "named": true
+          },
+          {
+            "type": "splice_type_specifier",
+            "named": true
+          },
+          {
+            "type": "template_type",
+            "named": true
+          },
+          {
+            "type": "type_identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "base_class_clause",
+          "named": true
+        },
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "uinterface_macro",
+          "named": true
+        },
+        {
+          "type": "unreal_api_specifier",
           "named": true
         }
       ]
@@ -9210,6 +9313,10 @@
     "named": false
   },
   {
+    "type": "GENERATED_UINTERFACE_BODY",
+    "named": false
+  },
+  {
     "type": "GENERATED_USTRUCT_BODY",
     "named": false
   },
@@ -9299,6 +9406,10 @@
   },
   {
     "type": "UFUNCTION",
+    "named": false
+  },
+  {
+    "type": "UINTERFACE",
     "named": false
   },
   {

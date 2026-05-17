@@ -113,6 +113,7 @@ module.exports = grammar(C, {
           // ▼▼▼ 追加: UE_DEPRECATED の競合解決 ▼▼▼
               [$.declaration, $._declaration_modifiers],
               [$.unreal_class_declaration],
+              [$.unreal_interface_declaration],
               [$.unreal_struct_declaration],
                   [$.unreal_enum_declaration],
                   // [$.field_declaration, $._declaration_modifiers], 
@@ -135,6 +136,7 @@ module.exports = grammar(C, {
       prec(10000, $.unreal_declaration_macro), // 最優先に引き上げ
       //start unreal engien
       prec(100, $.unreal_class_declaration),
+      prec(100, $.unreal_interface_declaration),
       prec(100, $.unreal_struct_declaration),
       prec(100, $.unreal_enum_declaration), 
       //end unreal engine
@@ -628,10 +630,11 @@ module.exports = grammar(C, {
       $.unreal_declare_class_macro,
       $.unreal_define_default_object_initializer_macro,
       prec(100, $.unreal_declaration_macro), // ここに移動し、優先度を上げる
-// ▼▼▼ 追加: UENUM, USTRUCT, UCLASS, UFUNCTION を許可 ▼▼▼
+// ▼▼▼ 追加: UENUM, USTRUCT, UCLASS, UINTERFACE, UFUNCTION を許可 ▼▼▼
       $.unreal_enum_declaration,
       $.unreal_struct_declaration,
       $.unreal_class_declaration,
+      $.unreal_interface_declaration,
       $.unreal_function_declaration, // <--- これを追加！
       $.unreal_pragma_macro,
       // ▲▲▲ 追加完了 ▲▲▲
@@ -1728,7 +1731,7 @@ module.exports = grammar(C, {
     
     // --- START: UNREAL ENGINE RULES ---
     unreal_specifier_keyword: $ => choice(
-     // UCLASS / USTRUCT / UENUM でよく使われるキーワード
+     // UCLASS / UINTERFACE / USTRUCT / UENUM でよく使われるキーワード
       'Blueprintable',
       'BlueprintType',
       'Abstract',
@@ -1817,6 +1820,7 @@ module.exports = grammar(C, {
     unreal_api_specifier: $ => token(prec(1, /[A-Z0-9_]+_API/)),
 
     uclass_macro: $ => seq('UCLASS', $.unreal_argument_list),
+    uinterface_macro: $ => seq('UINTERFACE', $.unreal_argument_list),
     ustruct_macro: $ => seq('USTRUCT', $.unreal_argument_list),
     uenum_macro: $ => seq('UENUM', $.unreal_argument_list),
 
@@ -1828,7 +1832,7 @@ module.exports = grammar(C, {
     ),
 
     unreal_body_macro: $ => seq(
-      choice('GENERATED_BODY', 'GENERATED_UCLASS_BODY', 'GENERATED_USTRUCT_BODY'),
+      choice('GENERATED_BODY', 'GENERATED_UCLASS_BODY', 'GENERATED_UINTERFACE_BODY', 'GENERATED_USTRUCT_BODY'),
       '(', ')'
     ),
 
@@ -1846,6 +1850,17 @@ module.exports = grammar(C, {
     // Standalone rules for Unreal class/struct definitions with high precedence
     unreal_class_declaration: $ => prec(100, seq(
       $.uclass_macro,
+      repeat($.comment),
+      'class',
+      optional($.unreal_api_specifier),
+      field('name', $._class_name),
+      optional($.base_class_clause),
+      field('body', $.field_declaration_list),
+      optional(';'),
+    )),
+
+    unreal_interface_declaration: $ => prec(100, seq(
+      $.uinterface_macro,
       repeat($.comment),
       'class',
       optional($.unreal_api_specifier),
