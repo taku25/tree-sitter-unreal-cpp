@@ -5,8 +5,6 @@
       "camelcase": "CPP",
       "scope": "source.cpp",
       "path": ".",
-      "class-name": "TreeSitterCpp",
-      "abi": 15,
       "file-types": [
         "cc",
         "cpp",
@@ -17,8 +15,7 @@
       ],
       "highlights": [
         "node_modules/tree-sitter-c/queries/highlights.scm",
-        "queries/highlights.scm",
-        "after/queries/cpp/highlights.scm"
+        "queries/highlights.scm"
       ],
       "injections": "queries/injections.scm",
       "tags": "queries/tags.scm",
@@ -26,17 +23,25 @@
     }
   ],
   "metadata": {
-    "version": "0.1.0",
+    "version": "0.23.2",
     "license": "MIT",
-    "description": "C++ grammar for tree-sitter with Unreal",
+    "description": "C++ grammar for tree-sitter",
     "authors": [
-     {
-        "name": "taku25",
-        "email": "taku36@gmail.com"
+      {
+        "name": "Max Brunsfeld",
+        "email": "maxbrunsfeld@gmail.com"
+      },
+      {
+        "name": "Amaan Qureshi",
+        "email": "amaanq12@gmail.com"
+      },
+      {
+        "name": "John Drouhard",
+        "email": "john@drouhard.dev"
       }
     ],
     "links": {
-      "repository": "https://github.com/taku25/tree-sitter-unreal-cpp"
+      "repository": "https://github.com/tree-sitter/tree-sitter-cpp"
     }
   },
   "bindings": {

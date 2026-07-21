@@ -1,6 +1,8 @@
-module github.com/tree-sitter/tree-sitter-unreal-cpp
+module github.com/tree-sitter/tree-sitter-cpp
 
-go 1.22
+go 1.23
+
+toolchain go1.23.0
 
 require github.com/tree-sitter/go-tree-sitter v0.24.0
 
